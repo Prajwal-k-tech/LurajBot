@@ -48,7 +48,6 @@ async def meme(ctx):
 @client.command()
 async def ping(ctx):
     await ctx.channel.send(f'Pong! {round (bot.latency * 1000)}ms ')
-@client.command()
 
 
 
