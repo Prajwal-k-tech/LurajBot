@@ -31,7 +31,7 @@ async def server(ctx):
     embed.add_field(name="Region", value=region, inline=True)
     embed.add_field(name="Member Count", value=memberCount, inline=True)
 
-    await ctx.send(embed=embed
+    await ctx.send(embed=embed)
 
 @client.command()
 async def hi(ctx):
