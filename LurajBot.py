@@ -3,8 +3,8 @@ import pyjokes
 import joke.quotes
 from discord.ext import commands
 from pyrandmeme import *
-
 client = commands.Bot(command_prefix=".l ")
+
 @client.event
 async def on_ready():
     print("Bot is ready")
@@ -44,11 +44,14 @@ async def meme(ctx):
     await ctx.send(embed=await pyrandmeme())
 @client.command()
 async def ping(ctx):
-    await ctx.send(f'Pong! {round (bot.latency * 1000)}ms ')
+    await ctx.send(f'Pong! {round (client.latency * 1000)}ms ')
+
 
 
 
 client.run("ODQwODYwOTU4NDA1NTU4MzAy.YJeWyg.wqw9TUN6oIrVG6pFonKrjtFUp1U")
+
+
 
 
 
