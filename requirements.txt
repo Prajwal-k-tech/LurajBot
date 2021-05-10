@@ -1,2 +1,4 @@
 discord.py
 discord-pretty-help
+pyjokes
+joke.quotes
