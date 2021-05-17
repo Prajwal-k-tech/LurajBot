@@ -135,10 +135,9 @@ quotes_1 = ["People often say that motivation doesn't last. Well, neither does b
 
 "Be patient with yourself. Self-growth is tender; it’s holy ground. There’s no greater investment.",]
 
-quote = random.choice(quotes_1)
 @client.command()
 async def quotes(ctx):
-    await ctx.send(quote)
+    await ctx.send(random.choice(quotes_1))
 
 
 client.run("ODQwODYwOTU4NDA1NTU4MzAy.YJeWyg.wqw9TUN6oIrVG6pFonKrjtFUp1U")
