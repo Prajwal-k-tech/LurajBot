@@ -9,11 +9,9 @@ client = commands.Bot(command_prefix=".l ")
 
 @client.event
 async def on_ready():
+    await client.change_presence(activity=discord.Game('Cool Math Games'))
     print("Bot is ready")
-@client.event
-async def on_member_join(ctx):
-    role = discord.utils.get(ctx.guild.roles, name="Members") #TODO
-    await client.add_roles(member, role)
+   
 
 @client.command()
 async def server(ctx):
