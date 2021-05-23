@@ -51,7 +51,7 @@ async def ping(ctx):
     await ctx.send(f'Pong! {round (client.latency * 1000)}ms ')
 @client.command()
 async def pp(ctx):
-    pp_size = random.randint(1, 10)
+    pp_size = random.randint(1, 50)
     pps = discord.Embed(
         title = "pp size generator",
         description = "Your pp size: " + "8" + '=' * pp_size + "D",
