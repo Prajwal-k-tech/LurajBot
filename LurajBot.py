@@ -9,7 +9,7 @@ client = commands.Bot(command_prefix=".l ")
 
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord.Game('Cool Math Games'))
+    await client.change_presence(activity=discord.Game('HAPPY BIRTHDAY TEJASWINI!'))
     print("Bot is ready")
    
 
