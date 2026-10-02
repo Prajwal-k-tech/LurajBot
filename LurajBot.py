@@ -15,7 +15,7 @@ client = commands.Bot(command_prefix=".l ", intents=intents)
 async def on_ready():
     await client.change_presence(activity=discord.Game('Cake!'))
     print("Bot is ready")
-   
+
 
 @client.command()
 @commands.guild_only()
