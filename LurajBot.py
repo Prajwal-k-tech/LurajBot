@@ -1,42 +1,34 @@
+import asyncio
+import os
+
 import discord
 import pyjokes
-import joke.quotes
 from discord.ext import commands
-from pyrandmeme import *
+from pyrandmeme import pyrandmeme
 import random
 
-client = commands.Bot(command_prefix=".l ")
+intents = discord.Intents.default()
+intents.message_content = True
+client = commands.Bot(command_prefix=".l ", intents=intents)
 
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game('Cake!'))
     print("Bot is ready")
-   
+
 
 @client.command()
+@commands.guild_only()
 async def server(ctx):
-    name = str(ctx.guild.name)
-    description = str(ctx.guild.description)
-
-    owner = str(ctx.guild.owner)
-    id = str(ctx.guild.id)
-    region = str(ctx.guild.region)
-    memberCount = str(ctx.guild.member_count)
-
-    icon = str(ctx.guild.icon_url)
-
-    embed = discord.Embed(
-        title=name + " Server Information",
-        description="A Server to Make Friends and have fun!",
-        color=discord.Color.blue()
-    )
-    embed.set_thumbnail(url=icon)
-    embed.add_field(name="Owner", value="oGhostyyy", inline=True)
-    embed.add_field(name="Server ID", value=id, inline=True)
-    embed.add_field(name="Region", value=region, inline=True)
-    embed.add_field(name="Member Count", value=memberCount, inline=True)
-
+    guild = ctx.guild
+    embed = discord.Embed(title=f"{guild.name} Server Information", color=discord.Color.blue())
+    if guild.icon:
+        embed.set_thumbnail(url=guild.icon.url)
+    embed.add_field(name="Owner", value=str(guild.owner or guild.owner_id), inline=True)
+    embed.add_field(name="Server ID", value=str(guild.id), inline=True)
+    embed.add_field(name="Member Count", value=str(guild.member_count), inline=True)
     await ctx.send(embed=embed)
+
 @client.command()
 async def hi(ctx):
     await ctx.send("Hi im Luraj")
@@ -50,26 +42,19 @@ async def meme(ctx):
 async def ping(ctx):
     await ctx.send(f'Pong! {round (client.latency * 1000)}ms ')
 @client.command()
-async def pp(ctx):
-    pp_size = random.randint(1, 50)
-    pps = discord.Embed(
-        title = "pp size generator",
-        description = "Your pp size: " + "8" + '=' * pp_size + "D",
-        colour=discord.Colour.blue()
-    )
-
-    await ctx.send(embed = pps)
-@client.command()
+@commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
 async def guess(ctx):
-    await ctx.send("Guess the number from 1 to 10")
-    def guess_check(m):
-        return m.content.isdigit()
-    guess = await client.wait_for('message')
+    await ctx.send("Guess a number from 1 to 10. You have 30 seconds.")
+    def guess_check(message):
+        return (message.author == ctx.author and message.channel == ctx.channel
+                and message.content.isdigit() and 1 <= int(message.content) <= 10)
+    try:
+        response = await client.wait_for("message", check=guess_check, timeout=30)
+    except asyncio.TimeoutError:
+        await ctx.send("Time expired. Start a new game with .l guess.")
+        return
     answer = random.randint(1, 10)
-    if int(guess.content) == answer:
-        await ctx.send('You are correct')
-    else:
-        await ctx.send('Sorry, it is actually {}.'.format(answer))
+    await ctx.send("Correct!" if int(response.content) == answer else f"The answer was {answer}.")
 
 quotes_1 = ["People often say that motivation doesn't last. Well, neither does bathing ﹘ that's why we recommend it daily.",
 
@@ -138,11 +123,8 @@ async def quotes(ctx):
     await ctx.send(random.choice(quotes_1))
 
 
-client.run("ODQwODYwOTU4NDA1NTU4MzAy.YJeWyg.wqw9TUN6oIrVG6pFonKrjtFUp1U")
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    token = os.environ.get("DISCORD_BOT_TOKEN")
+    if not token:
+        raise SystemExit("Set DISCORD_BOT_TOKEN before starting the bot.")
+    client.run(token)
