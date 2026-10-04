@@ -1,5 +1,7 @@
 # LurajBot
 
+My first coding project started in eighth grade: I wanted to turn a friend into a Discord bot as a joke for our server.
+
 An early Discord bot project with server information, latency, jokes, memes, quotes and a number-guessing game. Commands use the `.l ` prefix.
 
 ## Local setup
@@ -31,6 +33,14 @@ The token is read from the environment. Keep it out of source files and commit h
 
 ## Status
 
-A learning project with a modernization patch for discord.py 2.x. The original 1.7-era API calls have been replaced, token loading uses an environment variable, and guesses are scoped to the initiating user and channel. Live Discord login and third-party meme availability have not been checked for this patch. The bot has no persistent storage or moderation features.
+A learning project modernized for discord.py 2.x. The original 1.7-era API calls have been replaced, token loading uses an environment variable, and guesses are scoped to the initiating user and channel. Eight offline command checks passed on 4 October 2026 with Python 3.14 and discord.py 2.7.1. They cover greetings, local quotes, mocked jokes/memes, server information, guessing outcomes, timeout and user/channel input isolation. Live Discord login and third-party meme availability have not been checked. The bot has no persistent storage or moderation features.
 
 API migration reference: [discord.py migration guide](https://discordpy.readthedocs.io/en/stable/migrating.html).
+
+## Offline checks
+
+```sh
+python -m unittest -v
+```
+
+The tests use mocked command contexts and service responses. They need no bot token and send no Discord messages. Guesses accept only ordinary decimal strings from 1 through 10; unrelated messages, superscript digits and oversized numbers are ignored.

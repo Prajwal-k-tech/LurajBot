@@ -47,7 +47,7 @@ async def guess(ctx):
     await ctx.send("Guess a number from 1 to 10. You have 30 seconds.")
     def guess_check(message):
         return (message.author == ctx.author and message.channel == ctx.channel
-                and message.content.isdigit() and 1 <= int(message.content) <= 10)
+                and message.content in {str(number) for number in range(1, 11)})
     try:
         response = await client.wait_for("message", check=guess_check, timeout=30)
     except asyncio.TimeoutError:
